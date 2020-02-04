@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: gcpcourt
+  cloud:
+    gcp:
+      project-id: practicecourtstorage
+      storage:
+        credentials:
+          location: file:D:\Code\test\courtSprintGcp\src\main\resources\secret\key.json
+bucket-name: gcpcourt
