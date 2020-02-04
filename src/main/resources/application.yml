@@ -4,7 +4,14 @@ spring:
   cloud:
     gcp:
       project-id: practicecourtstorage
-      storage:
-        credentials:
-          location: file:D:\Code\test\courtSprintGcp\src\main\resources\secret\key.json
+      credentials:
+        location: classpath:/secret/key-storage.json
+      sql:
+        instance-connection-name: practicecourtstorage:europe-north1:courtusers
+        database-name: user
+
+  datasource:
+    username: admin
+    password: admin
+
 bucket-name: gcpcourt

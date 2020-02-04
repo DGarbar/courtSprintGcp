@@ -24,7 +24,7 @@ public class GcpConfig {
 //	@Bean
 //	public Credentials googleCredentials() throws IOException {
 //		final FileInputStream path = new FileInputStream(
-//			"D:\\Code\\test\\courtSprintGcp\\src\\main\\resources\\secret\\key.json");
+//			"D:\\Code\\test\\courtSprintGcp\\src\\main\\resources\\secret\\key-storage.json");
 //		return GoogleCredentials.fromStream(path);
 //	}
 //
