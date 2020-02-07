@@ -8,31 +8,32 @@ import lombok.Value;
 @Value
 public class GcpFile {
 
-    String id;
+	String id;
 
-    String name;
+	String name;
 
-    Long size;
+	Long size;
 
-    Long deleteTime;
+	Long deleteTime;
 
-    Long updateTime;
+	Long updateTime;
 
-    Long createTime;
+	Long createTime;
 
-    String contentType;
+	String contentType;
 
-    String contentEncoding;
+	String contentEncoding;
 
-    public static GcpFile of(Blob blob){
-        return GcpFile.builder()
-                .id(blob.getGeneratedId())
-                .name(blob.getName())
-                .size(blob.getSize())
-                .deleteTime(blob.getDeleteTime())
-                .updateTime(blob.getUpdateTime())
-                .createTime(blob.getCreateTime())
-                .contentType(blob.getContentType())
-                .contentEncoding(blob.getContentEncoding())
-                .build();}
+	public static GcpFile of(Blob blob) {
+		return GcpFile.builder()
+			.id(blob.getGeneratedId())
+			.name(blob.getName())
+			.size(blob.getSize())
+			.deleteTime(blob.getDeleteTime())
+			.updateTime(blob.getUpdateTime())
+			.createTime(blob.getCreateTime())
+			.contentType(blob.getContentType())
+			.contentEncoding(blob.getContentEncoding())
+			.build();
+	}
 }

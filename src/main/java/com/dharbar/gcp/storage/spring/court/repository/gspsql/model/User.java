@@ -1,24 +1,34 @@
 package com.dharbar.gcp.storage.spring.court.repository.gspsql.model;
 
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.*;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.NaturalId;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @Entity
-
+@EqualsAndHashCode(of = "name")
 public class User {
-    @Id
-    @GeneratedValue
-    Long id;
 
-    String name;
+	@Id
+	@GeneratedValue
+	private Long id;
 
-    String fileName;
+	@Column(nullable = false, unique = true)
+	@NaturalId
+	private String name;
+
+	@Builder
+	public User(String name) {
+		this.name = name;
+	}
 }
