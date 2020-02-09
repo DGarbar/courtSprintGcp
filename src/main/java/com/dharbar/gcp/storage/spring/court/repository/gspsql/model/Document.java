@@ -19,7 +19,7 @@ import org.hibernate.annotations.NaturalId;
 public class Document {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false, unique = true)
@@ -46,5 +46,4 @@ public class Document {
 		this.fileName = fileName;
 		this.user = user;
 	}
-
 }

@@ -1,10 +1,6 @@
 package com.dharbar.gcp.storage.spring.court.repository.gspsql.model;
 
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -20,7 +16,7 @@ import org.hibernate.annotations.NaturalId;
 public class User {
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@Column(nullable = false, unique = true)

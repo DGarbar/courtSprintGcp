@@ -5,23 +5,14 @@ spring:
     gcp:
       project-id: practicecourtstorage
       credentials:
-        location: classpath:/secret/key-storage.json
+        encoded-key: ${GCP_CREDENTIALS}
       sql:
         instance-connection-name: practicecourtstorage:europe-north1:courtusers
         database-name: user
 
-  jpa:
-    show-sql: true
-#    hibernate:
-#      ddl-auto: create
-    properties:
-      hibernate:
-        format_sql: true
-
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: admin
-    password: admin
+    username: ${GCP_SQL_USERNAME}
+    password: ${GCP_SQL_PASSWORD}
 
-
-bucket-name: gcpcourt
+bucket-name: ${GCP_STORAGE_BUCKET}

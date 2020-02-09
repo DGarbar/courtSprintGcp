@@ -30,8 +30,9 @@ public class UserController {
 
 	@GetMapping(value = "/user/{id}")
 	public ClientUser getById(@PathVariable("id") long id) {
-		User user = userRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-		return ClientUser.of(user);
+		return userRepository.findById(id)
+			.map(ClientUser::of)
+			.orElseThrow(IllegalArgumentException::new);
 	}
 
 	@PostMapping(value = "/user")

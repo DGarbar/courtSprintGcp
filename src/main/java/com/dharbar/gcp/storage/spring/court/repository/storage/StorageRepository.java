@@ -1,19 +1,17 @@
 package com.dharbar.gcp.storage.spring.court.repository.storage;
 
 import com.dharbar.gcp.storage.spring.court.repository.storage.model.GcpFile;
+import com.dharbar.gcp.storage.spring.court.service.mapper.GcpFileMapper;
 import com.google.cloud.storage.Blob;
 import com.google.cloud.storage.BlobInfo;
 import com.google.cloud.storage.Storage;
 import com.google.cloud.storage.Storage.BlobTargetOption;
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.core.io.WritableResource;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -32,7 +30,7 @@ public class StorageRepository {
 
 	public List<GcpFile> getGcpFiles() {
 		return StreamSupport.stream(storage.list(bucket).iterateAll().spliterator(), false)
-			.map(GcpFile::of)
+			.map(GcpFileMapper::toClient)
 			.collect(Collectors.toList());
 	}
 
@@ -45,9 +43,10 @@ public class StorageRepository {
 		return resource;
 	}
 
-	public GcpFile put(String name, byte[] bytes) {
-		BlobInfo blobInfo = BlobInfo.newBuilder(bucket, name).build();
-		return GcpFile.of(storage.create(blobInfo, bytes, BlobTargetOption.doesNotExist()));
+	public GcpFile put(String name, byte[] bytes, String contentType) {
+		BlobInfo blobInfo = BlobInfo.newBuilder(bucket, name).setContentType(contentType).build();
+		Blob blob = storage.create(blobInfo, bytes, BlobTargetOption.doesNotExist());
+		return GcpFileMapper.toClient(blob);
 	}
 
 	private String createPath(String file) {

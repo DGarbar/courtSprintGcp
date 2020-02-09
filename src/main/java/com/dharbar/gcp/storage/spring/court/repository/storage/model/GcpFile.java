@@ -24,16 +24,4 @@ public class GcpFile {
 
 	String contentEncoding;
 
-	public static GcpFile of(Blob blob) {
-		return GcpFile.builder()
-			.id(blob.getGeneratedId())
-			.name(blob.getName())
-			.size(blob.getSize())
-			.deleteTime(blob.getDeleteTime())
-			.updateTime(blob.getUpdateTime())
-			.createTime(blob.getCreateTime())
-			.contentType(blob.getContentType())
-			.contentEncoding(blob.getContentEncoding())
-			.build();
-	}
 }
