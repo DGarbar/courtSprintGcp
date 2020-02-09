@@ -1,6 +1,5 @@
 package com.dharbar.gcp.storage.spring.court.repository.storage.model;
 
-import com.google.cloud.storage.Blob;
 import lombok.Builder;
 import lombok.Value;
 

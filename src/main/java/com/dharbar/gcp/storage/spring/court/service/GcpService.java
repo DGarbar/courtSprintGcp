@@ -12,9 +12,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class GcpService {
@@ -31,8 +33,53 @@ public class GcpService {
 		String fileId = createFileId(user, fileName);
 		GcpFile gcpFile = storageRepository.put(fileId, data, contentType);
 
-		Document document = DocumentMapper.toEntity(gcpFile, user);
+		Document document = DocumentMapper.toEntity(fileName, gcpFile, user);
 		documentRepository.save(document);
+	}
+
+	@Transactional
+	public void syncFiles(Long userId) {
+		User user = userRepository.findById(userId)
+			.orElseThrow(() -> new IllegalArgumentException("User not found " + userId));
+
+		List<GcpFile> gcpFiles = storageRepository.get(user.getId(), user.getName());
+		List<Document> documents = documentRepository.findByUser(user);
+
+		deleteGcpMismatch(gcpFiles, documents);
+
+		deleteDbMismatch(gcpFiles, documents);
+	}
+
+	private void deleteGcpMismatch(List<GcpFile> gcpFiles, List<Document> documents) {
+		List<String> dbGcpNames = documents.stream()
+			.map(Document::getGcpName)
+			.collect(Collectors.toList());
+
+		List<String> notInDbGcpFileNames = gcpFiles.stream()
+			.map(GcpFile::getName)
+			.filter(gcpFileName -> !dbGcpNames.contains(gcpFileName))
+			.collect(Collectors.toList());
+
+		if (!notInDbGcpFileNames.isEmpty()) {
+			log.info("Founded gcp files that don't have corresponding in db: {}", notInDbGcpFileNames);
+			storageRepository.delete(notInDbGcpFileNames);
+		}
+	}
+
+	private void deleteDbMismatch(List<GcpFile> gcpFiles, List<Document> documents) {
+		List<String> gcpFileNames = gcpFiles.stream()
+			.map(GcpFile::getName)
+			.collect(Collectors.toList());
+
+		List<Document> notInGcpDocuments = documents.stream()
+			.filter(document -> !gcpFileNames.contains(document.getGcpName()))
+			.collect(Collectors.toList());
+
+		if (!notInGcpDocuments.isEmpty()) {
+			log.info("Founded db documents that don't have corresponding in GCP: {}",
+				notInGcpDocuments);
+			documentRepository.deleteAll(notInGcpDocuments);
+		}
 	}
 
 	public List<ClientDocument> getDocuments() {

@@ -30,7 +30,12 @@ public class DocumentController {
 	public void putFile(
 		@PathVariable("userId") Long userId,
 		@RequestParam("file") MultipartFile file) throws IOException {
+		gcpService
+			.saveFile(userId, file.getOriginalFilename(), file.getBytes(), file.getContentType());
+	}
 
-		gcpService.saveFile(userId, file.getOriginalFilename(), file.getBytes(), file.getContentType());
+	@GetMapping("/document/sync/{userId}")
+	public void syncFile(@PathVariable("userId") Long userId) {
+		gcpService.syncFiles(userId);
 	}
 }

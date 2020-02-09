@@ -24,7 +24,7 @@ public class Document {
 
 	@Column(nullable = false, unique = true)
 	@NaturalId
-	private String gcpId;
+	private String gcpName;
 
 	private String contentType;
 
@@ -39,8 +39,8 @@ public class Document {
 	private User user;
 
 	@Builder
-	public Document(String gcpId, String contentType, Long createdDate, String fileName, User user) {
-		this.gcpId = gcpId;
+	public Document(String gcpName, String contentType, Long createdDate, String fileName, User user) {
+		this.gcpName = gcpName;
 		this.contentType = contentType;
 		this.createdDate = createdDate;
 		this.fileName = fileName;

@@ -2,7 +2,6 @@ package com.dharbar.gcp.storage.spring.court.controller;
 
 import com.dharbar.gcp.storage.spring.court.repository.storage.StorageRepository;
 import com.dharbar.gcp.storage.spring.court.repository.storage.model.GcpFile;
-import com.dharbar.gcp.storage.spring.court.service.GcpService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
@@ -18,7 +17,7 @@ public class FileStorageController {
 
 	@GetMapping("/files")
 	public List<GcpFile> getNames() {
-		return storageRepository.getGcpFiles();
+		return storageRepository.getAll();
 	}
 
 	@GetMapping(value = "/file/{name}")

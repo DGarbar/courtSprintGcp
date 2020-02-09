@@ -32,7 +32,7 @@ public class UserController {
 	public ClientUser getById(@PathVariable("id") long id) {
 		return userRepository.findById(id)
 			.map(ClientUser::of)
-			.orElseThrow(IllegalArgumentException::new);
+			.orElseThrow(() -> new IllegalArgumentException("not found"));
 	}
 
 	@PostMapping(value = "/user")

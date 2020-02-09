@@ -3,12 +3,12 @@ spring:
     name: gcpcourt
   cloud:
     gcp:
-      project-id: practicecourtstorage
+      project-id: ${GCP_PROJECT}
       credentials:
         encoded-key: ${GCP_CREDENTIALS}
       sql:
-        instance-connection-name: practicecourtstorage:europe-north1:courtusers
-        database-name: user
+        instance-connection-name: ${GCP_SQL_INSTANCE_CONNECTION_NAME}
+        database-name: ${GCP_SQL_DATABASE}
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

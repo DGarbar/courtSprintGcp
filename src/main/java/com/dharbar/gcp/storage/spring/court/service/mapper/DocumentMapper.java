@@ -7,10 +7,10 @@ import com.dharbar.gcp.storage.spring.court.repository.storage.model.GcpFile;
 
 public class DocumentMapper {
 
-	public static Document toEntity(GcpFile gcpFile, User user) {
+	public static Document toEntity(String fileName, GcpFile gcpFile, User user) {
 		return Document.builder()
-			.gcpId(gcpFile.getId())
-			.fileName(gcpFile.getName())
+			.fileName(fileName)
+			.gcpName(gcpFile.getName())
 			.contentType(gcpFile.getContentType())
 			.createdDate(gcpFile.getCreateTime())
 			.user(user)
