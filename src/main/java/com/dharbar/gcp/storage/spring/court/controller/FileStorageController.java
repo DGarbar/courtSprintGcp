@@ -7,20 +7,22 @@ import lombok.AllArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/files")
 public class FileStorageController {
 
 	private StorageRepository storageRepository;
 
-	@GetMapping("/files")
+	@GetMapping
 	public List<GcpFile> getNames() {
 		return storageRepository.getAll();
 	}
 
-	@GetMapping(value = "/file/{name}")
+	@GetMapping(value = "/{name}")
 	public Resource getFile(@PathVariable("name") String name) {
 		return storageRepository.get(name);
 	}
